@@ -23,7 +23,7 @@ runSimulatorSub size tList (i : iList) (o : oList) dRef = do
 
 runTimeSlot :: [Int] -> Int -> Int -> STRef s Data -> ST s [Int]
 runTimeSlot (target : idx : rest) inst operand dRef = case inst of
-  0 -> case (rem target sizeOfTarget) of -- Set
+  0 -> case targetInData of -- Set
     0 -> do
       modifySTRef dRef (setTime operand)
       return (idx : rest)
@@ -36,20 +36,21 @@ runTimeSlot (target : idx : rest) inst operand dRef = case inst of
     3 -> do
       modifySTRef dRef (setEntry idx operand)
       return rest
-    --_ -> trace ("Is" ++ show (rem target 4)) $ (d,rest)
-  1 -> case (rem target sizeOfTarget) of -- Mod
+  1 -> case targetInData of -- Mod
     0 -> do
-      modifySTRef dRef (modifyTime (\x -> rem x operand))
+      modifySTRef dRef (modifyTime rF)
       return (idx : rest)
     1 -> do
-      modifySTRef dRef (modifyBalance (\x -> rem x operand))
+      modifySTRef dRef (modifyBalance rF)
       return (idx : rest)
     2 -> do
-      modifySTRef dRef (modifyStatus (\x -> rem x operand))
+      modifySTRef dRef (modifyStatus rF)
       return (idx : rest)
     3 -> do
-      modifySTRef dRef (modifyEntry (\x -> rem x operand) idx)
+      modifySTRef dRef (modifyEntry rF idx)
       return rest
-      --_ -> trace ("Is" ++ show (rem target 4)) $ (d,rest)
-    -- 2 -> Add
-    -- 3 -> Div
+  -- 2 -> Add
+  -- 3 -> Div
+ where
+  targetInData = rem target sizeOfTarget
+  rF x = rem x operand
