@@ -25,9 +25,7 @@ executables:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
-    - -threaded
     - -rtsopts
-    - -with-rtsopts=-N
     dependencies:
     - State
     - random-adaptor
@@ -35,9 +33,7 @@ executables:
     main:                Main.hs
     source-dirs:         benchmarks/many
     ghc-options:
-    - -threaded
     - -rtsopts
-    - -with-rtsopts=-N
     - -O3
     dependencies:
     - State
