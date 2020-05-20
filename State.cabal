@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e16db07fa7dcd47eeac6a162f73edb169340bee1e390e1816daaaecc10ab2499
+-- hash: 3b4c8770e97db02fc861237d694d8a636aa7df1c83f3576d7d07a9235ccf7d7b
 
 name:           State
 version:        0.1.0.0
@@ -75,6 +75,23 @@ executable State-exe
       State
     , base >=4.7 && <5
     , containers
+    , deepseq
+    , mtl
+    , random-adaptor
+  default-language: Haskell2010
+
+executable State-laziness-bench
+  main-is: Main.hs
+  other-modules:
+      Paths_State
+  hs-source-dirs:
+      benchmarks/laziness
+  ghc-options: -rtsopts -O3
+  build-depends:
+      State
+    , base >=4.7 && <5
+    , containers
+    , criterion
     , deepseq
     , mtl
     , random-adaptor

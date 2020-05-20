@@ -55,75 +55,39 @@ main = do
 
   let iData = Data iTime iBalance iStatus IM.empty
 
-  let ssBench =
-        bgroup "SingleState Simulation"
-          $ [ bench "SingleState.StrictPure" $ nf
-              (SSSP.runSimulator size targetList instList operandList)
-              iData
-            , bench "SingleState.StrictPure'" $ nf
-              (SSSP.runSimulator' size targetList instList operandList)
-              iData
-            , bench "SingleState.StrictState" $ nf
-              ( SS.runState
-              $ SSSS.runSimulator size targetList instList operandList
-              )
-              iData
-            , bench "SingleState.StrictState'" $ nf
-              ( SS.runState
-              $ SSSS.runSimulator' size targetList instList operandList
-              )
-              iData
-            , bench "SingleState.StrictState''" $ nf
-              ( SS.runState
-              $ SSSS.runSimulator'' size targetList instList operandList
-              )
-              iData
-            , bench "SingleState.StrictState'''" $ nf
-              ( SS.runState
-              $ SSSS.runSimulator''' size targetList instList operandList
-              )
-              iData
-            , bench "SingleState.StrictState''''" $ nf
-              ( SS.runState
-              $ SSSS.runSimulator'''' size targetList instList operandList
-              )
-              iData
-            , bench "SingleState.StrictStateT" $ nf
-              ( SS.runStateT
-              $ SSSSTrans.runSimulator size targetList instList operandList
-              )
-              iData
-            , bench "SingleState.ST"
-              $ nf (runST' size targetList instList operandList) iData
-            , bench "SingleState.Pure"
-              $ nf (SSP.runSimulator size targetList instList operandList) iData
-            , bench "SingleState.Pure'"
-              $ nf (SSP.runSimulator' size targetList instList operandList) iData
-            , bench "SingleState.State" $ nf
-              ( LS.runState
-              $ SSS.runSimulator size targetList instList operandList
-              )
-              iData
-            , bench "SingleState.State'" $ nf
-              ( LS.runState
-              $ SSS.runSimulator' size targetList instList operandList
-              )
-              iData
-            , bench "SingleState.StateT" $ nf
-              ( LS.runState
-              $ SSSTrans.runSimulator size targetList instList operandList
-              )
-              iData
-            , bench "SingleState.LazyST"
-              $ nf (runLazyST' size targetList instList operandList) iData
-            ]
+  let
+    ssBench =
+      bgroup "SingleState Simulation"
+        $ [ bench "SingleState.StrictPure"
+            $ nf (SSSP.runSimulator size targetList instList operandList) iData
+          , bench "SingleState.StrictPure'"
+            $ nf (SSSP.runSimulator' size targetList instList operandList) iData
+          , bench "SingleState.StrictPure''" $ nf
+            (SSSP.runSimulator'' size targetList instList operandList)
+            iData
+          , bench "SingleState.StrictPure'''" $ nf
+            (SSSP.runSimulator''' size targetList instList operandList)
+            iData
+          , bench "SingleState.StrictState" $ nf
+            ( SS.runState
+            $ SSSS.runSimulator size targetList instList operandList
+            )
+            iData
+          , bench "SingleState.StrictState'" $ nf
+            ( SS.runState
+            $ SSSS.runSimulator' size targetList instList operandList
+            )
+            iData
+          , bench "SingleState.StrictState''" $ nf
+            ( SS.runState
+            $ SSSS.runSimulator'' size targetList instList operandList
+            )
+            iData
+          , bench "SingleState.StrictState'''" $ nf
+            ( SS.runState
+            $ SSSS.runSimulator''' size targetList instList operandList
+            )
+            iData
+          ]
   putStrLn "Do bench"
   defaultMainWith myConfig60s [ssBench]
-
-runST' :: Int -> [Int] -> [Int] -> [Int] -> Data -> Data
-runST' size targetList instList operandList aData =
-  SST.runST (SSST.runSimulator size targetList instList operandList aData)
-
-runLazyST' :: Int -> [Int] -> [Int] -> [Int] -> Data -> Data
-runLazyST' size targetList instList operandList aData =
-  LST.runST (SSLST.runSimulator size targetList instList operandList aData)
