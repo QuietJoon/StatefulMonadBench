@@ -23,7 +23,7 @@ runSimulatorSub size tList (i : iList) (o : oList) dRef = do
 
 runTimeSlot :: [Int] -> Int -> Int -> STRef s Data -> ST s [Int]
 runTimeSlot (target : idx : rest) inst operand dRef = case inst of
-  0 -> case targetInData of -- Set
+  0 -> case (rem target sizeOfTarget) of -- Set
     0 -> do
       modifySTRef dRef (setTime operand)
       return (idx : rest)
@@ -36,7 +36,7 @@ runTimeSlot (target : idx : rest) inst operand dRef = case inst of
     3 -> do
       modifySTRef dRef (setEntry idx operand)
       return rest
-  1 -> case targetInData of -- Mod
+  1 -> case (rem target sizeOfTarget) of -- Mod
     0 -> do
       modifySTRef dRef (modifyTime rF)
       return (idx : rest)
@@ -52,5 +52,4 @@ runTimeSlot (target : idx : rest) inst operand dRef = case inst of
   -- 2 -> Add
   -- 3 -> Div
  where
-  targetInData = rem target sizeOfTarget
   rF x = rem x operand
