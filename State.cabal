@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: bba28ab5f3de3ef07ae92f61d8b2a96ccc0ef6566507d38042140ce0fa487a45
+-- hash: 1216385d068d5b279636892328eb2f4b7fadb6037354f29a8f1d1d31e311503d
 
 name:           State
 version:        0.1.0.0
@@ -31,8 +31,10 @@ library
       SingleState.Pure
       SingleState.ST
       SingleState.State
+      SingleState.StateT
       SingleState.StrictPure
       SingleState.StrictState
+      SingleState.StrictStateT
       Type
   other-modules:
       Paths_State

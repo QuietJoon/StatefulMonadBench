@@ -20,6 +20,8 @@ import           SingleState.Pure              as SSP
 import           SingleState.StrictPure        as SSSP
 import           SingleState.State             as SSS
 import           SingleState.StrictState       as SSSS
+import           SingleState.StateT            as SSSTrans
+import           SingleState.StrictStateT      as SSSSTrans
 import           SingleState.LazyST            as SSLST
 import           SingleState.ST                as SSST
 
@@ -63,6 +65,11 @@ main = do
               $ SSSS.runSimulator size targetList instList operandList
               )
               iData
+            , bench "SingleState.StrictStateT" $ nf
+              ( SS.runStateT
+              $ SSSSTrans.runSimulator size targetList instList operandList
+              )
+              iData
             , bench "SingleState.ST"
               $ nf (runST' size targetList instList operandList) iData
             , bench "SingleState.Pure"
@@ -70,6 +77,11 @@ main = do
             , bench "SingleState.State" $ nf
               ( LS.runState
               $ SSS.runSimulator size targetList instList operandList
+              )
+              iData
+            , bench "SingleState.StateT" $ nf
+              ( LS.runState
+              $ SSSTrans.runSimulator size targetList instList operandList
               )
               iData
             , bench "SingleState.LazyST"
