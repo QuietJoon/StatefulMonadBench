@@ -60,9 +60,32 @@ main = do
           $ [ bench "SingleState.StrictPure" $ nf
               (SSSP.runSimulator size targetList instList operandList)
               iData
+            , bench "SingleState.StrictPure'" $ nf
+              (SSSP.runSimulator' size targetList instList operandList)
+              iData
             , bench "SingleState.StrictState" $ nf
               ( SS.runState
               $ SSSS.runSimulator size targetList instList operandList
+              )
+              iData
+            , bench "SingleState.StrictState'" $ nf
+              ( SS.runState
+              $ SSSS.runSimulator' size targetList instList operandList
+              )
+              iData
+            , bench "SingleState.StrictState''" $ nf
+              ( SS.runState
+              $ SSSS.runSimulator'' size targetList instList operandList
+              )
+              iData
+            , bench "SingleState.StrictState'''" $ nf
+              ( SS.runState
+              $ SSSS.runSimulator''' size targetList instList operandList
+              )
+              iData
+            , bench "SingleState.StrictState''''" $ nf
+              ( SS.runState
+              $ SSSS.runSimulator'''' size targetList instList operandList
               )
               iData
             , bench "SingleState.StrictStateT" $ nf
@@ -74,9 +97,16 @@ main = do
               $ nf (runST' size targetList instList operandList) iData
             , bench "SingleState.Pure"
               $ nf (SSP.runSimulator size targetList instList operandList) iData
+            , bench "SingleState.Pure'"
+              $ nf (SSP.runSimulator' size targetList instList operandList) iData
             , bench "SingleState.State" $ nf
               ( LS.runState
               $ SSS.runSimulator size targetList instList operandList
+              )
+              iData
+            , bench "SingleState.State'" $ nf
+              ( LS.runState
+              $ SSS.runSimulator' size targetList instList operandList
               )
               iData
             , bench "SingleState.StateT" $ nf
