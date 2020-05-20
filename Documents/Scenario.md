@@ -10,18 +10,18 @@ The simulation takes three arguments
 
 ## State
 
-The state have four major entry.
+The state have four major records in `Data`.
 
 * Time
 * Balance
 * Status
 * Map
 
-### ID
+### Time
 
 Just a integer
 
-### Name
+### Balance
 
 Just a integer
 
@@ -57,4 +57,4 @@ The simulation have only four instruction
 
 ### Operand
 
-
+The simulation function could take one number from the list as a operand for operation with the target value.
