@@ -1,0 +1,45 @@
+name:                State
+version:             0.1.0.0
+github:              "QuietJoon/StatefulMonadBench"
+author:              "YongJoon Joe"
+maintainer:          "developer@yongjoon.net"
+copyright:           "2020 YongJoon Joe"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+description:         Please see the README on GitHub at <https://github.com/QuietJoon/StatefulMonadBench#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- mtl
+- containers
+- deepseq
+
+library:
+  source-dirs: src
+
+executables:
+  State-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - State
+    - random-adaptor
+  State-bench: # Because hie with test/benchmark does not work well
+    main:                Main.hs
+    source-dirs:         benchmarks/many
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -O3
+    dependencies:
+    - State
+    - criterion
+    - random-adaptor

@@ -1,0 +1,9 @@
+resolver: lts-14.27
+
+packages:
+- .
+
+extra-deps:
+- splitmix-0.0.4
+- github: QuietJoon/random-adaptor
+  commit: 9d39b96703f70baff160e954ad06c3688c1265db
