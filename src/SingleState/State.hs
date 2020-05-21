@@ -1,3 +1,4 @@
+{-# LANGUAGE BangPatterns #-}
 module SingleState.State where
 
 
@@ -105,6 +106,31 @@ runTimeSlot''' (target : idx : rest) inst operand = do
     -- 2 -> Add
     -- 3 -> Div
   where targetInData = rem target sizeOfTarget
+
+
+runSimulator'''b :: Int -> [Int] -> [Int] -> [Int] -> State Data Data
+runSimulator'''b 0    _     _           _           = get
+runSimulator'''b size tList (i : iList) (o : oList) = do
+  restTList <- runTimeSlot'''b tList i o
+  runSimulator'''b (size - 1) restTList iList oList
+
+runTimeSlot'''b :: [Int] -> Int -> Int -> State Data [Int]
+runTimeSlot'''b (target : idx : rest) inst operand = do
+  d <- get
+  targetInData `seq` case inst of
+    0 -> case targetInData of -- Set
+      0 -> state $ \s -> ((idx : rest), setTime operand d)
+      1 -> state $ \s -> ((idx : rest), setBalance operand d)
+      2 -> state $ \s -> ((idx : rest), setStatus operand d)
+      3 -> state $ \s -> (rest, setEntry idx operand d)
+    1 -> case targetInData of -- Mod
+      0 -> state $ \s -> ((idx : rest), modifyTime (\x -> rem x operand) d)
+      1 -> state $ \s -> ((idx : rest), modifyBalance (\x -> rem x operand) d)
+      2 -> state $ \s -> ((idx : rest), modifyStatus (\x -> rem x operand) d)
+      3 -> state $ \s -> (rest, modifyEntry (\x -> rem x operand) idx d)
+    -- 2 -> Add
+    -- 3 -> Div
+  where !targetInData = rem target sizeOfTarget
 
 
 runSimulator'''' :: Int -> [Int] -> [Int] -> [Int] -> State Data Data
