@@ -34,7 +34,7 @@ executables:
     source-dirs:         benchmarks/many
     ghc-options:
     - -rtsopts
-    - -O3
+    - -O2
     dependencies:
     - State
     - criterion
@@ -44,7 +44,7 @@ executables:
     source-dirs:         benchmarks/laziness
     ghc-options:
     - -rtsopts
-    - -O3
+    - -O2
     dependencies:
     - State
     - criterion
