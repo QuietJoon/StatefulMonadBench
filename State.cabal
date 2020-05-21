@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e16db07fa7dcd47eeac6a162f73edb169340bee1e390e1816daaaecc10ab2499
+-- hash: fc899d562dcbe998a7d15a88f66739ece372a26f0c1b35eedb8fc5c1a8d49bd7
 
 name:           State
 version:        0.1.0.0
@@ -53,7 +53,7 @@ executable State-bench
       Paths_State
   hs-source-dirs:
       benchmarks/many
-  ghc-options: -rtsopts -O3
+  ghc-options: -rtsopts -O2
   build-depends:
       State
     , base >=4.7 && <5
